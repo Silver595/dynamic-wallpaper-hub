@@ -70,11 +70,11 @@ custom_wallpaper/
 ## 📖 Source Files
 
 - [`background.js`](background.js)
-- [`newtab.html`](custom_wallpaper/newtab.html)
-- [`newtab.js`](custom_wallpaper/newtab.js)
-- [`popup.html`](custom_wallpaper/popup.html)
-- [`popup.js`](custom_wallpaper/popup.js)
-- [`manifest.json`](custom_wallpaper/manifest.json)
+- [`newtab.html`](newtab.html)
+- [`newtab.js`](newtab.js)
+- [`popup.html`](popup.html)
+- [`popup.js`](popup.js)
+- [`manifest.json`](manifest.json)
 
 ---
 
