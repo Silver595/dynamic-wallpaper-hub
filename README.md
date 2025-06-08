@@ -69,7 +69,7 @@ custom_wallpaper/
 
 ## 📖 Source Files
 
-- [`background.js`](custom_wallpaper/background.js)
+- [`background.js`](background.js)
 - [`newtab.html`](custom_wallpaper/newtab.html)
 - [`newtab.js`](custom_wallpaper/newtab.js)
 - [`popup.html`](custom_wallpaper/popup.html)
