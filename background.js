@@ -1,4 +1,3 @@
-
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === 'install') {
         console.log('Dynamic Wallpaper Hub installed successfully!');
@@ -27,17 +26,18 @@ chrome.action.onClicked.addListener((tab) => {
 
 let autoChangeAlarm = null;
 
-chrome.storage.local.get(['autoChange'], (result) => {
+chrome.storage.local.get(['autoChange', 'interval'], (result) => {
     if (result.autoChange) {
-        setupAutoChangeAlarm();
+        setupAutoChangeAlarm(result.interval);
     }
 });
 
-function setupAutoChangeAlarm() {
+function setupAutoChangeAlarm(interval) {
     chrome.alarms.clear('wallpaperChange');
+    const minutes = (typeof interval === 'number' && interval >= 1 && interval <= 180) ? interval : 30;
     chrome.alarms.create('wallpaperChange', {
-        delayInMinutes: 30,
-        periodInMinutes: 30
+        delayInMinutes: minutes,
+        periodInMinutes: minutes
     });
 }
 
@@ -54,11 +54,22 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'local' && changes.autoChange) {
-        if (changes.autoChange.newValue) {
-            setupAutoChangeAlarm();
-        } else {
-            chrome.alarms.clear('wallpaperChange');
+    if (namespace === 'local') {
+        if (changes.autoChange) {
+            if (changes.autoChange.newValue) {
+                chrome.storage.local.get(['interval'], (result) => {
+                    setupAutoChangeAlarm(result.interval);
+                });
+            } else {
+                chrome.alarms.clear('wallpaperChange');
+            }
+        }
+        if (changes.interval) {
+            chrome.storage.local.get(['autoChange'], (result) => {
+                if (result.autoChange) {
+                    setupAutoChangeAlarm(changes.interval.newValue);
+                }
+            });
         }
     }
 });
