@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            width: 300px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .stats {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 12px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle.active {
+            background: #4CAF50;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 21px;
+            height: 21px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle.active::after {
+            transform: translateX(25px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        #errorMsg {
+            color: #ffb3b3;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #wallpaperPreview {
+            max-width: 90%;
+            max-height: 80px;
+            border-radius: 8px;
+            display: none;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🖼️</div>
+        <div class="title">Dynamic Wallpaper Hub</div>
+        <div class="subtitle">Transform your new tab experience</div>
+    </div>
+
+    <div class="stats">
+        <div class="stat-item">
+            <span>📁 Wallpapers:</span>
+            <span id="wallpaperCount">Loading...</span>
+        </div>
+        <div class="stat-item">
+            <span>🔄 Auto-change:</span>
+            <span id="autoChangeStatus">Loading...</span>
+        </div>
+        <div class="stat-item">
+            <span>⏰ Last changed:</span>
+            <span id="lastChanged">Just now</span>
+        </div>
+    </div>
+
+    <div class="toggle-container">
+        <span>Auto-change every <input type="number" id="intervalInput" min="1" max="180" value="30" style="width:50px;"> min</span>
+        <div class="toggle" id="autoToggle"></div>
+    </div>
+
+    <div style="text-align:center; margin-bottom:10px;">
+        <img id="wallpaperPreview" src="" alt="Current Wallpaper">
+    </div>
+
+    <div class="quick-actions">
+        <button class="action-btn" id="newWallpaperBtn">⏭️ Next Wallpaper</button>
+        <button class="action-btn" id="addWallpaperBtn">➕ Add Wallpapers</button>
+        <button class="action-btn" id="openNewTabBtn">🆕 Open New Tab</button>
+        <button class="action-btn" id="manageBtn">🗂️ Manage Collection</button>
+        <button class="action-btn" id="resetBtn" style="background:#e74c3c;">🔄 Reset Wallpapers</button>
+    </div>
+
+    <div id="errorMsg"></div>
+
+    <div class="footer">
+        &copy; 2024 Dynamic Wallpaper Hub
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
