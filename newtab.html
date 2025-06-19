@@ -68,6 +68,24 @@
             animation: fadeInUp 1s ease-out 0.2s both;
         }
 
+        .quote-container {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        #quoteText {
+            font-size: 1.1rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        #quoteAuthor {
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+
         .search-container {
             position: relative;
             margin-bottom: 2rem;
@@ -261,7 +279,10 @@
     <div class="content-overlay">
         <div class="time-display" id="timeDisplay"></div>
         <div class="date-display" id="dateDisplay"></div>
-        
+        <div class="quote-container" id="quoteContainer" style="margin-bottom:1.5rem; text-align:center; max-width:600px;">
+            <div id="quoteText" style="font-size:1.1rem; font-style:italic; opacity:0.9;"></div>
+            <div id="quoteAuthor" style="font-size:0.95rem; margin-top:0.5rem; opacity:0.7;"></div>
+        </div>
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Search Google or type a URL" id="searchInput">
             <button class="search-btn" id="searchBtn">🔍</button>
