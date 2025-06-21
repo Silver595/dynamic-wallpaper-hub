@@ -1,6 +1,11 @@
 class PopupManager {
     constructor() {
         this.init();
+        chrome.storage.onChanged.addListener((changes, area) => {
+            if (area === 'local' && (changes.wallpapers || changes.currentWallpaper || changes.autoChange || changes.lastChanged)) {
+                this.loadStats();
+            }
+        });
     }
 
     async init() {
