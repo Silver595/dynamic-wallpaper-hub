@@ -110,7 +110,7 @@ class WallpaperHub {
 
     async handleFiles(files) {
         for (const file of files) {
-            if (file.type.startsWith('image/')) {
+            if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     this.wallpapers.push(e.target.result);
@@ -139,19 +139,28 @@ class WallpaperHub {
     renderWallpaperGrid() {
         const grid = document.getElementById('wallpaperGrid');
         grid.innerHTML = '';
-        
         this.wallpapers.forEach((wallpaper, index) => {
-            const img = document.createElement('img');
-            img.src = wallpaper;
-            img.className = 'wallpaper-thumb';
-            img.title = 'Click to set as wallpaper';
-            img.addEventListener('click', () => {
+            let mediaElem;
+            if (wallpaper.startsWith('data:video/')) {
+                mediaElem = document.createElement('video');
+                mediaElem.src = wallpaper;
+                mediaElem.className = 'wallpaper-thumb';
+                mediaElem.title = 'Click to set as wallpaper';
+                mediaElem.muted = true;
+                mediaElem.loop = true;
+                mediaElem.autoplay = true;
+            } else {
+                mediaElem = document.createElement('img');
+                mediaElem.src = wallpaper;
+                mediaElem.className = 'wallpaper-thumb';
+                mediaElem.title = 'Click to set as wallpaper';
+            }
+            mediaElem.addEventListener('click', () => {
                 this.setWallpaper(wallpaper);
             });
-            
             const container = document.createElement('div');
             container.style.position = 'relative';
-            container.appendChild(img);
+            container.appendChild(mediaElem);
             
             const deleteBtn = document.createElement('button');
             deleteBtn.innerHTML = '×';
@@ -203,9 +212,13 @@ class WallpaperHub {
             console.error("Element with id 'wallpaperContainer' not found.");
             return;
         }
-        container.style.backgroundImage = `url(${wallpaperUrl})`;
+        if (wallpaperUrl.startsWith('data:video/')) {
+            container.innerHTML = `<video src="${wallpaperUrl}" autoplay loop muted style="width:100vw;height:100vh;object-fit:cover;"></video>`;
+        } else {
+            container.innerHTML = '';
+            container.style.backgroundImage = `url(${wallpaperUrl})`;
+        }
         this.currentWallpaper = wallpaperUrl;
-        
         container.style.opacity = '0';
         setTimeout(() => {
             container.style.opacity = '1';
